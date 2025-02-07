@@ -10,6 +10,20 @@ class BinarySearchTree {
   constructor(arr) {
     this.root = buildTree(cleanArray(arr))
   }
+
+  insert(value, currentNode = this.root) {
+    if (currentNode === null) {
+      return new Node(value)
+    }
+
+    if (value <= currentNode.data) {
+      currentNode.left = this.insert(value, currentNode.left)
+    } else {
+      currentNode.right = this.insert(value, currentNode.right)
+    }
+
+    return currentNode
+  }
 }
 
 function prettyPrint(node, prefix = "", isLeft = true) {
@@ -30,7 +44,6 @@ function buildTree(array = [], start = 0, end = array.length - 1) {
     return null
   }
 
-  console.log(array)
   let mid = Math.floor((start + end) / 2)
   const root = new Node(array[mid])
   root.left = buildTree(array, start, mid - 1)
@@ -41,7 +54,8 @@ function buildTree(array = [], start = 0, end = array.length - 1) {
 
 let arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
 const bst = new BinarySearchTree(arr)
-console.log(bst.root.data)
+prettyPrint(bst.root)
+bst.insert(10)
 prettyPrint(bst.root)
 
 function cleanArray(arr) {
