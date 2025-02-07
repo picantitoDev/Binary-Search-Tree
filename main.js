@@ -30,6 +30,7 @@ function buildTree(array = [], start = 0, end = array.length - 1) {
     return null
   }
 
+  console.log(array)
   let mid = Math.floor((start + end) / 2)
   const root = new Node(array[mid])
   root.left = buildTree(array, start, mid - 1)
@@ -38,14 +39,14 @@ function buildTree(array = [], start = 0, end = array.length - 1) {
   return root
 }
 
-let arr = [1, 2, 3, 4, 5, 6, 7, 8]
+let arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
 const bst = new BinarySearchTree(arr)
 console.log(bst.root.data)
 prettyPrint(bst.root)
 
 function cleanArray(arr) {
   const cleanArray = arr
-    .sort()
+    .sort((a, b) => a - b)
     .filter((value, index) => arr.indexOf(value) === index)
   return cleanArray
 }
