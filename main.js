@@ -24,6 +24,44 @@ class BinarySearchTree {
 
     return currentNode
   }
+
+  deleteItem(value, currentNode = this.root) {
+    if (currentNode === null) return null
+
+    if (currentNode.data === value) {
+      // 4 possible outcomes
+      // It has no childs
+      if (currentNode.left === null && currentNode.right === null) {
+        return null
+      }
+      // It has a child to the left
+      else if (currentNode.right === null) {
+        return currentNode.left
+      }
+      // It has a child to the right
+      else if (currentNode.left === null) {
+        return currentNode.right
+      }
+      // It has two children
+      else {
+        let ptr = currentNode.right
+        while (ptr.left) {
+          ptr = ptr.left
+        }
+        currentNode.data = ptr.data
+        currentNode.right = this.deleteItem(currentNode.data, currentNode.right)
+        return currentNode
+      }
+    }
+
+    if (value <= currentNode.data) {
+      currentNode.left = this.deleteItem(value, currentNode.left)
+    } else {
+      currentNode.right = this.deleteItem(value, currentNode.right)
+    }
+
+    return currentNode
+  }
 }
 
 function prettyPrint(node, prefix = "", isLeft = true) {
@@ -56,6 +94,8 @@ let arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
 const bst = new BinarySearchTree(arr)
 prettyPrint(bst.root)
 bst.insert(10)
+prettyPrint(bst.root)
+bst.deleteItem(324)
 prettyPrint(bst.root)
 
 function cleanArray(arr) {
