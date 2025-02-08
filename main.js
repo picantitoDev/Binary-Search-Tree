@@ -62,6 +62,34 @@ class BinarySearchTree {
 
     return currentNode
   }
+
+  find(value) {
+    let currentNode = this.root
+    while (currentNode !== null) {
+      if (value === currentNode.data) return currentNode
+      currentNode =
+        value > currentNode.data ? currentNode.right : currentNode.left
+    }
+    return null
+  }
+
+  findRec(value, currentNode = this.root) {
+    if (currentNode === null) {
+      return null
+    }
+
+    // Base Case
+    if (currentNode.data === value) {
+      return currentNode
+    }
+
+    // Recursive part
+
+    if (value > currentNode.data) {
+      return this.find(value, currentNode.right)
+    }
+    return this.find(value, currentNode.left)
+  }
 }
 
 function prettyPrint(node, prefix = "", isLeft = true) {
@@ -95,8 +123,7 @@ const bst = new BinarySearchTree(arr)
 prettyPrint(bst.root)
 bst.insert(10)
 prettyPrint(bst.root)
-bst.deleteItem(324)
-prettyPrint(bst.root)
+console.log(bst.find(7))
 
 function cleanArray(arr) {
   const cleanArray = arr
