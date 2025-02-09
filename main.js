@@ -90,6 +90,31 @@ class BinarySearchTree {
     }
     return this.find(value, currentNode.left)
   }
+
+  levelOrder(callback) {
+    if (arguments.length === 0) {
+      throw new Error("No Callback Function Passed")
+    }
+
+    if (typeof callback !== "function") {
+      throw new Error("Callback Function is required")
+    }
+
+    let queue = [this.root]
+
+    while (queue.length > 0) {
+      let node = queue.shift()
+      if (node) {
+        callback(node)
+        if (node.left) {
+          queue.push(node.left)
+        }
+        if (node.right) {
+          queue.push(node.right)
+        }
+      }
+    }
+  }
 }
 
 function prettyPrint(node, prefix = "", isLeft = true) {
@@ -121,9 +146,9 @@ function buildTree(array = [], start = 0, end = array.length - 1) {
 let arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
 const bst = new BinarySearchTree(arr)
 prettyPrint(bst.root)
-bst.insert(10)
-prettyPrint(bst.root)
-console.log(bst.find(7))
+const values = []
+bst.levelOrder((node) => values.push(node.data))
+console.log(values)
 
 function cleanArray(arr) {
   const cleanArray = arr
