@@ -101,6 +101,28 @@ class BinarySearchTree {
     }
 
     let queue = [this.root]
+  }
+
+  inOrder(callback) {
+    if (arguments.length === 0) {
+      throw new Error("No Callback Function Passed")
+    }
+
+    if (typeof callback !== "function") {
+      throw new Error("Callback Function is required")
+    }
+  }
+
+  preOrder(callback) {
+    if (arguments.length === 0) {
+      throw new Error("No Callback Function Passed")
+    }
+
+    if (typeof callback !== "function") {
+      throw new Error("Callback Function is required")
+    }
+
+    let queue = [this.root]
 
     while (queue.length > 0) {
       let node = queue.shift()
@@ -109,12 +131,33 @@ class BinarySearchTree {
         if (node.left) {
           queue.push(node.left)
         }
+      }
+    }
+
+    while (queue.length > 0) {
+      if (node) {
+        callback(node)
         if (node.right) {
           queue.push(node.right)
         }
       }
     }
   }
+
+  postOrder(callback) {
+    if (arguments.length === 0) {
+      throw new Error("No Callback Function Passed")
+    }
+
+    if (typeof callback !== "function") {
+      throw new Error("Callback Function is required")
+    }
+  }
+
+  height(node) {}
+  depth(node) {}
+  isBalanced() {}
+  rebalance() {}
 }
 
 function prettyPrint(node, prefix = "", isLeft = true) {
