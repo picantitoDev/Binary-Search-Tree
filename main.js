@@ -154,7 +154,15 @@ class BinarySearchTree {
     callback(node)
   }
 
-  height(node) {}
+  height(node = this.root) {
+    if (!node) {
+      return -1
+    }
+
+    let heightLeft = this.height(node.left)
+    let heighRight = this.height(node.right)
+    return Math.max(heightLeft, heighRight) + 1
+  }
   depth(node) {}
   isBalanced() {}
   rebalance() {}
@@ -203,6 +211,7 @@ bst.postOrder(bst.root, printNode3)
 console.log(preOrder)
 console.log(inOrder)
 console.log(postOrder)
+console.log(bst.height(bst.root))
 
 function cleanArray(arr) {
   const cleanArray = arr
