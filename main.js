@@ -92,59 +92,23 @@ class BinarySearchTree {
   }
 
   levelOrder(callback) {
-    if (arguments.length === 0) {
-      throw new Error("No Callback Function Passed")
-    }
-
     if (typeof callback !== "function") {
-      throw new Error("Callback Function is required")
+      throw new Error("Callback function is required")
     }
 
-    let queue = [this.root]
-  }
-
-  inOrder(callback) {
-    if (arguments.length === 0) {
-      throw new Error("No Callback Function Passed")
-    }
-
-    if (typeof callback !== "function") {
-      throw new Error("Callback Function is required")
-    }
-  }
-
-  preOrder(callback) {
-    if (arguments.length === 0) {
-      throw new Error("No Callback Function Passed")
-    }
-
-    if (typeof callback !== "function") {
-      throw new Error("Callback Function is required")
-    }
-
-    let queue = [this.root]
+    let queue = [this.root] // Start with root in queue
 
     while (queue.length > 0) {
-      let node = queue.shift()
-      if (node) {
-        callback(node)
-        if (node.left) {
-          queue.push(node.left)
-        }
-      }
-    }
-
-    while (queue.length > 0) {
-      if (node) {
-        callback(node)
-        if (node.right) {
-          queue.push(node.right)
-        }
+      let node = queue.shift() // Dequeue first node
+      if (node !== null) {
+        callback(node) // Apply callback to current node
+        if (node.left) queue.push(node.left) // Enqueue left child if exists
+        if (node.right) queue.push(node.right) // Enqueue right child if exists
       }
     }
   }
 
-  postOrder(callback) {
+  inOrder(node = this.root, callback) {
     if (arguments.length === 0) {
       throw new Error("No Callback Function Passed")
     }
@@ -152,6 +116,42 @@ class BinarySearchTree {
     if (typeof callback !== "function") {
       throw new Error("Callback Function is required")
     }
+
+    if (!node) return
+
+    this.inOrder(node.left, callback) // Visit left subtree
+    callback(node)
+    this.inOrder(node.right, callback) // Visit right subtree
+  }
+
+  preOrder(node = this.root, callback) {
+    if (arguments.length === 0) {
+      throw new Error("No Callback Function Passed")
+    }
+
+    if (typeof callback !== "function") {
+      throw new Error("Callback Function is required")
+    }
+
+    if (!node) return
+    callback(node)
+    this.preOrder(node.left, callback) // Visit left subtree
+    this.preOrder(node.right, callback) // Visit right subtree
+  }
+
+  postOrder(node = this.root, callback) {
+    if (arguments.length === 0) {
+      throw new Error("No Callback Function Passed")
+    }
+
+    if (typeof callback !== "function") {
+      throw new Error("Callback Function is required")
+    }
+
+    if (!node) return
+    this.postOrder(node.left, callback) // Visit left subtree
+    this.postOrder(node.right, callback) // Visit right subtree
+    callback(node)
   }
 
   height(node) {}
@@ -189,9 +189,20 @@ function buildTree(array = [], start = 0, end = array.length - 1) {
 let arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
 const bst = new BinarySearchTree(arr)
 prettyPrint(bst.root)
-const values = []
-bst.levelOrder((node) => values.push(node.data))
-console.log(values)
+const preOrder = []
+const inOrder = []
+const postOrder = []
+
+const printNode1 = (node) => preOrder.push(node.data)
+const printNode2 = (node) => inOrder.push(node.data)
+const printNode3 = (node) => postOrder.push(node.data)
+
+bst.preOrder(bst.root, printNode1)
+bst.inOrder(bst.root, printNode2)
+bst.postOrder(bst.root, printNode3)
+console.log(preOrder)
+console.log(inOrder)
+console.log(postOrder)
 
 function cleanArray(arr) {
   const cleanArray = arr
