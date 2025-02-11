@@ -163,7 +163,20 @@ class BinarySearchTree {
     let heighRight = this.height(node.right)
     return Math.max(heightLeft, heighRight) + 1
   }
-  depth(node) {}
+
+  depth(node) {
+    let current = this.root
+    let level = 0
+
+    while (current) {
+      if (current === node) {
+        return level
+      }
+      current = node.value < current.value ? current.left : current.right
+      level++
+    }
+    return -1
+  }
   isBalanced() {}
   rebalance() {}
 }
@@ -211,7 +224,7 @@ bst.postOrder(bst.root, printNode3)
 console.log(preOrder)
 console.log(inOrder)
 console.log(postOrder)
-console.log(bst.height(bst.root))
+console.log(bst.depth(bst.root))
 
 function cleanArray(arr) {
   const cleanArray = arr
