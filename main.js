@@ -177,7 +177,17 @@ class BinarySearchTree {
     }
     return -1
   }
-  isBalanced() {}
+
+  isBalanced() {
+    let left = this.height(this.root.left)
+    let right = this.height(this.root.right)
+    return (
+      Math.abs(left - right) <= 1 &&
+      this.isBalanced(node.left) &&
+      this.isBalanced(node.right)
+    )
+  }
+
   rebalance() {}
 }
 
