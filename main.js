@@ -8,7 +8,7 @@ class Node {
 
 class BinarySearchTree {
   constructor(arr) {
-    this.root = buildTree(cleanArray(arr))
+    this.root = this.buildTree(this.cleanArray(arr))
   }
 
   insert(value, currentNode = this.root) {
@@ -191,58 +191,39 @@ class BinarySearchTree {
   rebalance() {
     let values = []
     this.inOrder(this.root, (node) => values.push(node.data))
-    this.root = this.buildBalancedTree(values)
-  }
-}
-
-function prettyPrint(node, prefix = "", isLeft = true) {
-  if (node === null) {
-    return
-  }
-  if (node.right !== null) {
-    prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false)
-  }
-  console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`)
-  if (node.left !== null) {
-    prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true)
-  }
-}
-
-function buildTree(array = [], start = 0, end = array.length - 1) {
-  if (start > end) {
-    return null
+    this.root = this.buildTree(values)
   }
 
-  let mid = Math.floor((start + end) / 2)
-  const root = new Node(array[mid])
-  root.left = buildTree(array, start, mid - 1)
-  root.right = buildTree(array, mid + 1, end)
+  prettyPrint(node, prefix = "", isLeft = true) {
+    if (node === null) {
+      return
+    }
+    if (node.right !== null) {
+      prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false)
+    }
+    console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`)
+    if (node.left !== null) {
+      prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true)
+    }
+  }
 
-  return root
-}
+  buildTree(array = [], start = 0, end = array.length - 1) {
+    if (start > end) {
+      return null
+    }
 
-let arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
-const bst = new BinarySearchTree(arr)
-prettyPrint(bst.root)
-const preOrder = []
-const inOrder = []
-const postOrder = []
+    let mid = Math.floor((start + end) / 2)
+    const root = new Node(array[mid])
+    root.left = buildTree(array, start, mid - 1)
+    root.right = buildTree(array, mid + 1, end)
 
-const printNode1 = (node) => preOrder.push(node.data)
-const printNode2 = (node) => inOrder.push(node.data)
-const printNode3 = (node) => postOrder.push(node.data)
+    return root
+  }
 
-bst.preOrder(bst.root, printNode1)
-bst.inOrder(bst.root, printNode2)
-bst.postOrder(bst.root, printNode3)
-console.log(preOrder)
-console.log(inOrder)
-console.log(postOrder)
-console.log(bst.depth(bst.root))
-
-function cleanArray(arr) {
-  const cleanArray = arr
-    .sort((a, b) => a - b)
-    .filter((value, index) => arr.indexOf(value) === index)
-  return cleanArray
+  cleanArray(arr) {
+    const cleanArray = arr
+      .sort((a, b) => a - b)
+      .filter((value, index) => arr.indexOf(value) === index)
+    return cleanArray
+  }
 }
