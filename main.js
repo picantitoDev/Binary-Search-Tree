@@ -188,7 +188,11 @@ class BinarySearchTree {
     )
   }
 
-  rebalance() {}
+  rebalance() {
+    let values = []
+    this.inOrder(this.root, (node) => values.push(node.data))
+    this.root = this.buildBalancedTree(values)
+  }
 }
 
 function prettyPrint(node, prefix = "", isLeft = true) {
